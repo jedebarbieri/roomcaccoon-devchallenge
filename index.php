@@ -9,7 +9,7 @@
 <body>
     <div class="container">
         <h2 class="my-5">Shopping List</h2>
-        <form>
+        <form id="itemForm">
             <div class="row">
                 <div class="col-10">
                     <input class="form-control" name="name" type="text"/>
@@ -19,7 +19,7 @@
                 </div>
             </div>
         </form>
-        <div class="itemList container my-4">
+        <div class="container my-4" id="itemList">
             <div class="item row" id="">
                 <div class="col-1">
                     <input class="form-check-input" type="checkbox"/>
