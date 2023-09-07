@@ -54,7 +54,7 @@ class Item {
 
     toggleDone() {
         $.ajax({
-            url: "api/toggleDone.php",
+            url: "api/toggleDone",
             type: "POST",
             data: {
                 id: this.id
@@ -71,7 +71,7 @@ class Item {
 
     delete() {
         $.ajax({
-            url: "api/delete.php",
+            url: "api/delete",
             type: "POST",
             data: {
                 id: this.id
@@ -87,7 +87,7 @@ class Item {
 
     saveNewName() {
         $.ajax({
-            url: "api/edit.php",
+            url: "api/edit",
             type: "POST",
             data: {
                 id: this.id,
@@ -119,7 +119,7 @@ class List {
 
     loadItems() {
         $.ajax({
-            url: "api/list.php",
+            url: "api/list",
             type: "GET"
         }).done((response) => {
             if (response.success) {
@@ -152,7 +152,7 @@ class ItemForm {
 
     postNewItem(name) {
         $.ajax({
-            url: "api/post.php",
+            url: "api/post",
             type: "POST",
             data: {
                 name: name
