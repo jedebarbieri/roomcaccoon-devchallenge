@@ -16,6 +16,10 @@
             display: inline-block;
         }
 
+        div.item.done .name {
+            text-decoration: line-through;
+        }
+
     </style>
 </head>
 <body>

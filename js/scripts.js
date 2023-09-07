@@ -12,9 +12,9 @@ class Item {
 
     createEmptyElement() {
         this.element = $(`
-        <div class="item row my-2" id="${this.id}">
+        <div class="item row my-2 ${this.done ? "done" : ""}" id="${this.id}">
             <div class="name col-10 d-flex align-items-center py-2">
-                <input class="form-check-input me-4" type="checkbox"/>
+                <input class="form-check-input me-4" type="checkbox" ${this.done ? "checked='checked'" : ""}/>
                 <span contenteditable="true">${this.name}</span>
             </div>
             <div class="options col-2 d-flex align-items-center justify-content-end">
@@ -33,16 +33,18 @@ class Item {
         });
         this.element.find("button.edit").click((e) => {
             e.preventDefault();
-            $(e.currentTarget).prop("disabled", true );
             this.focusName();
         });
         this.element.find("div.name>span").blur((e) => {
-            this.saveNewName(e);
+            this.saveNewName();
         });
         this.element.find("div.name>span").keypress((e) => {
             if (e.which == 13) {
                 this.element.find("div.name>span").blur();
             }
+        });
+        this.element.find("div.name>input").change((e) => {
+            this.toggleDone();
         });
     }
 
@@ -51,11 +53,23 @@ class Item {
     }
 
     toggleDone() {
-
+        $.ajax({
+            url: "api/toggleDone.php",
+            type: "POST",
+            data: {
+                id: this.id
+            }
+        }).done((response) => {
+            if (response.success) {
+                this.element.find("div.name>input").prop("checked", response.data.done);
+                this.element.toggleClass("done", response.data.done);
+            }
+        }).fail(function(obj){
+            console.log(obj.statusText);
+        });
     }
 
     delete() {
-        console.log("deleting...");
         $.ajax({
             url: "api/delete.php",
             type: "POST",
@@ -69,11 +83,9 @@ class Item {
         }).fail(function(obj){
             console.log(obj.statusText);
         });
-
     }
 
-    saveNewName(e) {
-        $(e.currentTarget).prop("disabled", false);
+    saveNewName() {
         $.ajax({
             url: "api/edit.php",
             type: "POST",
