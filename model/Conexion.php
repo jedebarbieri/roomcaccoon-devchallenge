@@ -113,7 +113,8 @@ abstract class Conexion {
 		/*
 		 * Para cada valor del arreglo de referencias, ejecutamos la función bind_result
 		 */
-		call_user_func_array(array(self::$sentencia, "bind_result"), $filaReferencias);
+		call_user_func_array(array(self::$sentencia, "bind_result"), array_values($filaReferencias));
+		
 
 		/*
 		 * Cogemos los datos de la fila en el arreglo filaArreglo y el éxito se asigna a retorno

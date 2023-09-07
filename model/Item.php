@@ -54,7 +54,7 @@ class Item implements JsonSerializable {
         
 		Conexion::ejecutar();
 		$lista = array();
-        
+
 		while($fila = Conexion::extraer_fila()) {
 			$item = new Item();
 			$item->asignarDatos($fila);
@@ -157,7 +157,7 @@ class Item implements JsonSerializable {
         return array(
             "id" => $this->id,
             "name" => $this->name,
-            "done" => $this->done
+            "done" => boolval($this->done)
         );
 	}
 
