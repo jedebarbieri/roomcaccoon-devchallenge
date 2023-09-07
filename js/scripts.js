@@ -18,11 +18,19 @@ class Item {
                 ${this.name}
             </div>
             <div class="options col-2 d-flex align-items-center justify-content-end">
-                <button class="btn btn-sm btn-secondary me-2">Edit</button>
-                <button class="btn btn-sm btn-danger">Delete</button>
+                <button class="edit btn btn-sm btn-secondary me-2">Edit</button>
+                <button class="delete btn btn-sm btn-danger">Delete</button>
             </div>
         </div>
         `);
+        this.initEvents();
+    }
+
+    initEvents() {
+        this.element.find("button.delete").click((e) => {
+            e.preventDefault();
+            this.delete();
+        })
     }
 
     toggleDone() {
@@ -30,6 +38,20 @@ class Item {
     }
 
     delete() {
+        console.log("deleting...");
+        $.ajax({
+            url: "api/delete.php",
+            type: "POST",
+            data: {
+                id: this.id
+            }
+        }).done((response) => {
+            if (response.success) {
+                this.element.remove();
+            }
+        }).fail(function(obj){
+            console.log(obj.statusText);
+        });
 
     }
 
