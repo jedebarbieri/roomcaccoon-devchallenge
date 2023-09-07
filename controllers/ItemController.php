@@ -3,66 +3,43 @@
 namespace controllers;
 
 use model\Item;
+use views\JsonResponse;
 
 class ItemController {
     public static function list() {
-
-        $success = true;
-        $message = "";
-        
         try {
+
             $list = Item::list();
+            JsonResponse::output($list);
+
         } catch (\Exception $e) {
-            $success = false;
-            $message = $e->getMessage();
-            unset($list);
+            JsonResponse::error($e->getMessage());
         }
-        
-        $ajaxObj = array(
-            "success" => $success,
-            "message" => $message,
-            "data" => $list
-        );
-        header('Content-Type: application/json; charset=utf-8');
-        echo json_encode($ajaxObj);
     }
 
 
-    public static function delete(int $id) {
-
-        $success = true;
-        $message = "";
-        
+    public static function delete(int $id) {        
         try {
+
             if (empty($id)) {
                 throw new \Exception("You must indicate the id of the item to be deleted.");
             }
         
             $item = new Item($id);
             $item->delete();
-        
+
+            JsonResponse::output($item);
+
         } catch (\Exception $e) {
-            $success = false;
-            $message = $e->getMessage();
-            unset($item);
+            JsonResponse::error($e->getMessage());
         }
-        
-        $ajaxObj = array(
-            "success" => $success,
-            "message" => $message,
-            "data" => $item
-        );
-        header('Content-Type: application/json; charset=utf-8');
-        echo json_encode($ajaxObj);
     }
 
     public static function edit(int $id, string $name) {
-        $success = true;
-        $message = "";
-
-        $name = trim($name);
-
         try {
+
+            $name = trim($name);
+
             if (empty($id)) {
                 throw new \Exception("You must indicate the id of the item to be modified.");
             }
@@ -75,28 +52,17 @@ class ItemController {
 
             $item->updateName();
 
-        } catch (\Exception $e) {
-            $success = false;
-            $message = $e->getMessage();
-            unset($item);
-        }
+            JsonResponse::output($item);
 
-        $ajaxObj = array(
-            "success" => $success,
-            "message" => $message,
-            "data" => $item
-        );
-        header('Content-Type: application/json; charset=utf-8');
-        echo json_encode($ajaxObj);
+        } catch (\Exception $e) {
+            JsonResponse::error($e->getMessage());
+        }
     }
 
     public static function post(string $name) {
-        $success = true;
-        $message = "";
-
-        $name = trim($name);
-
         try {
+
+            $name = trim($name);
             if (empty($name)) {
                 throw new \Exception("The name of the item cannot be empty.");
             }
@@ -106,25 +72,14 @@ class ItemController {
 
             $item->insert();
 
-        } catch (\Exception $e) {
-            $success = false;
-            $message = $e->getMessage();
-            unset($item);
-        }
+            JsonResponse::output($item);
 
-        $ajaxObj = array(
-            "success" => $success,
-            "message" => $message,
-            "data" => $item
-        );
-        header('Content-Type: application/json; charset=utf-8');
-        echo json_encode($ajaxObj);
+        } catch (\Exception $e) {
+            JsonResponse::error($e->getMessage());
+        }
     }
 
     public static function toggleDone(int $id) {
-        $success = true;
-        $message = "";
-
         try {
             if (empty($id)) {
                 throw new \Exception("You must indicate the id of the item to be toggled.");
@@ -134,19 +89,11 @@ class ItemController {
 
             $item->toggleDone();
 
-        } catch (\Exception $e) {
-            $success = false;
-            $message = $e->getMessage();
-            unset($item);
-        }
+            JsonResponse::output($item);
 
-        $ajaxObj = array(
-            "success" => $success,
-            "message" => $message,
-            "data" => $item
-        );
-        header('Content-Type: application/json; charset=utf-8');
-        echo json_encode($ajaxObj);
+        } catch (\Exception $e) {
+            JsonResponse::error($e->getMessage());
+        }
     }
 
 }
