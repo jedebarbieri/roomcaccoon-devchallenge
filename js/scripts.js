@@ -15,7 +15,7 @@ class Item {
         <div class="item row my-2" id="${this.id}">
             <div class="name col-10 d-flex align-items-center py-2">
                 <input class="form-check-input me-4" type="checkbox"/>
-                ${this.name}
+                <span contenteditable="true">${this.name}</span>
             </div>
             <div class="options col-2 d-flex align-items-center justify-content-end">
                 <button class="edit btn btn-sm btn-secondary me-2">Edit</button>
@@ -30,7 +30,24 @@ class Item {
         this.element.find("button.delete").click((e) => {
             e.preventDefault();
             this.delete();
-        })
+        });
+        this.element.find("button.edit").click((e) => {
+            e.preventDefault();
+            $(e.currentTarget).prop("disabled", true );
+            this.focusName();
+        });
+        this.element.find("div.name>span").blur((e) => {
+            this.saveNewName(e);
+        });
+        this.element.find("div.name>span").keypress((e) => {
+            if (e.which == 13) {
+                this.element.find("div.name>span").blur();
+            }
+        });
+    }
+
+    focusName() {
+        this.element.find("div.name>span").focus();
     }
 
     toggleDone() {
@@ -55,8 +72,25 @@ class Item {
 
     }
 
-    edit() {
-
+    saveNewName(e) {
+        $(e.currentTarget).prop("disabled", false);
+        $.ajax({
+            url: "api/edit.php",
+            type: "POST",
+            data: {
+                id: this.id,
+                name: this.element.find("div.name>span").text()
+            }
+        }).done((response) => {
+            if (response.success) {
+                this.name = response.data.name;
+                this.element.find("div.name>span").text(this.name);
+            } else {
+                this.element.find("div.name>span").text(this.name);
+            }
+        }).fail(function(obj){
+            console.log(obj.statusText);
+        });
     }
 }
 
@@ -93,10 +127,15 @@ class ItemForm {
     constructor($element) {
         this.element = $element;
 
-        $(this.element).find("button").click((e) => {
+        this.element.find("button").click((e) => {
+            e.preventDefault();
+            this.element.submit();
+        });
+
+        this.element.submit((e) => {
             e.preventDefault();
             this.postNewItem(this.element.find("input").get(0).value);
-        });
+        })
     }
 
     postNewItem(name) {
