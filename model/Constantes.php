@@ -1,5 +1,5 @@
 <?php
-
+namespace model;
 class Constantes {
 	
 	const DEFAULT_TIMEZONE = "America/Lima";

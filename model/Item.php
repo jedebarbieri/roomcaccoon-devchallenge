@@ -1,6 +1,6 @@
 <?php
-
-class Item implements JsonSerializable {
+namespace model;
+class Item implements \JsonSerializable {
 	public $id;
 	public $name;
 	public $done;

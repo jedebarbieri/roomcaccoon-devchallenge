@@ -1,0 +1,5 @@
+RewriteEngine on
+
+Options -Indexes
+
+RewriteRule ^api/(.*)$ /api/router.php?action=$1 [END]
