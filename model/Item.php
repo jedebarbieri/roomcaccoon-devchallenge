@@ -42,18 +42,19 @@ class Item implements JsonSerializable {
      * Returns the complete list of items ordered by first the undone items and then the done
      * 
      */
-    public function list() {
+    public static function list() {
         
 		Conexion::conectar();
 		Conexion::preparar_sentencia("
 			SELECT *
 			FROM 
-				items
+				item
 			ORDER BY done
 		");
         
 		Conexion::ejecutar();
 		$lista = array();
+        
 		while($fila = Conexion::extraer_fila()) {
 			$item = new Item();
 			$item->asignarDatos($fila);
