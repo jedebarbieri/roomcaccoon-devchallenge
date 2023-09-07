@@ -27,12 +27,12 @@ class Constantes {
 	 * Prod
 	 */
 	
-	// const ABSOLUTE_URL = "http://roomcaccoon-devchallenge.com/";
-	// const NOMBRE_BD = "roomcaccoon";
+	// const ABSOLUTE_URL = "http://roomcaccoon.dulcejardin.com/";
+	// const NOMBRE_BD = "dulcejardin_roomcaccoon";
 	// const HOST = "localhost";
-	// const AMBIENTE = PRODUCTION;
-	// const DBUSER = "root";
-	// const DBPASS = "";
+	// const AMBIENTE = self::PRODUCTION;
+	// const DBUSER = "roomcaccoon";
+	// const DBPASS = "59JWH6i3nZt7kuP";
 	
 	
 	const TITULO_CMS = "CMS - Revista Virutal de Derecho";
