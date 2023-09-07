@@ -12,17 +12,17 @@ class Item {
 
     createEmptyElement() {
         this.element = $(`
-        <div class="item row" id="${this.id}">
-            <div class="col-1">
-                <input class="form-check-input" type="checkbox"/>
+        <div class="item row my-2" id="${this.id}">
+            <div class="name col-10 d-flex align-items-center py-2">
+                <input class="form-check-input me-4" type="checkbox"/>
+                ${this.name}
             </div>
-            <div class="name col-9">${this.name}</div>
-            <div class="options col-2">
-                <button class="btn btn-secondary">Edit</button>
-                <button class="btn btn-danger">Delete</button>
+            <div class="options col-2 d-flex align-items-center justify-content-end">
+                <button class="btn btn-sm btn-secondary me-2">Edit</button>
+                <button class="btn btn-sm btn-danger">Delete</button>
             </div>
         </div>
-        `)
+        `);
     }
 
     toggleDone() {
@@ -48,6 +48,22 @@ class List {
         this.itemList.push(item);
         this.element.append(item.element);
     }
+
+    loadItems() {
+        $.ajax({
+            url: "api/list.php",
+            type: "GET"
+        }).done((response) => {
+            if (response.success) {
+                response.data.forEach(itemData => {
+                    let newItem = new Item(itemData.id, itemData.name, itemData.done);
+                    itemList.addItem(newItem);
+                });
+            }
+        }).fail(function(obj){
+            console.log(obj.statusText);
+        });
+    }
 }
 
 
@@ -69,7 +85,6 @@ class ItemForm {
                 name: name
             }
         }).done((response) => {
-            console.log(response);
             if (response.success) {
                 this.element.find("input").get(0).value = "";
                 let newItem = new Item(response.data.id, response.data.name, response.data.done);
@@ -87,4 +102,6 @@ var itemForm;
 $(document).ready(function () {
     itemList = new List($("#itemList"));
     itemForm = new ItemForm($("#itemForm"));
+
+    itemList.loadItems();
 });

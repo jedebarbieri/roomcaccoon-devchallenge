@@ -5,6 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="js/lib/bootstrap-5.3.1-dist/css/bootstrap.min.css" rel="stylesheet"/>
     <title>Shopping List</title>
+    <style>
+        div.item .btn {
+            display: none;
+        }
+        div.item:hover {
+            background-color: #f5f5f5;
+        }
+        div.item:hover .btn {
+            display: inline-block;
+        }
+
+    </style>
 </head>
 <body>
     <div class="container">
@@ -20,16 +32,6 @@
             </div>
         </form>
         <div class="container my-4" id="itemList">
-            <div class="item row" id="">
-                <div class="col-1">
-                    <input class="form-check-input" type="checkbox"/>
-                </div>
-                <div class="name col-9"></div>
-                <div class="options col-2">
-                    <button class="btn btn-secondary">Edit</button>
-                    <button class="btn btn-danger">Delete</button>
-                </div>
-            </div>
         </div>
     </div>
     <script src="js/lib/code.jquery.com_jquery-3.7.1.min.js"></script>
